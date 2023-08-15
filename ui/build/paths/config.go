@@ -113,6 +113,7 @@ var Configuration = map[string]PathConfig{
 	"m4":      Allowed,
 	"nproc":   Allowed,
 	"openssl": Allowed,
+	"pahole":   Allowed,
 	"pstree":  Allowed,
 	"python3":  Allowed,
 	"python3.6":Allowed,
