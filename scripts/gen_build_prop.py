@@ -130,8 +130,8 @@ def parse_args():
   if config["BuildNumber"].startswith("eng."):
     config["BuildNumber"] = config["DateUtc"]
 
-  config["PihooksGmsFp"] = ""
-  config["PihooksGmsModel"] = ""
+  config["BinfoGmsFp"] = ""
+  config["BinfoGmsModel"] = ""
 
   override_config(config)
 
@@ -251,8 +251,8 @@ def generate_build_info(args):
 
   print(f"ro.voltage.device={config['VoltageDevice']}")
 
-  print(f"persist.sys.pihooks_FINGERPRINT={config['PihooksGmsFp']}")
-  print(f"persist.sys.pihooks_MODEL={config['PihooksGmsModel']}")
+  print(f"persist.sys.binfo.FINGERPRINT={config['BinfoGmsFp']}")
+  print(f"persist.sys.binfo.MODEL={config['BinfoGmsModel']}")
 
   # These values are deprecated, use "ro.product.cpu.abilist"
   # instead (see below).
