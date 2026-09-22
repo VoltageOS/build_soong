@@ -20,6 +20,7 @@ import argparse
 import contextlib
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -117,6 +118,11 @@ def parse_args():
   config["Date"] = subprocess.check_output(["date", "-ud", f"@{raw_date}"], text=True).strip()
   config["DateUtc"] = subprocess.check_output(["date", "-ud", f"@{raw_date}", "+%s"], text=True).strip()
 
+  if config["BuildNumber"].startswith("eng."):
+    config["BuildNumber"] = config["DateUtc"]
+    for key in ("BuildFingerprint", "BuildSystemFingerprint"):
+      config[key] = re.sub(r"(?<=/)eng\.[^/:]*(?=:)", config["BuildNumber"], config[key])
+
   # build_desc is human readable strings that describe this build. This has the same info as the
   # build fingerprint.
   # e.g. "aosp_cf_x86_64_phone-userdebug VanillaIceCream MAIN eng.20240319.143939 test-keys"
@@ -130,9 +136,6 @@ def parse_args():
     config["BuildThumbprint"] = args.build_thumbprint_file.read().strip()
 
   config["VoltageDevice"] = config["DeviceName"]
-
-  if config["BuildNumber"].startswith("eng."):
-    config["BuildNumber"] = config["DateUtc"]
 
   override_config(config)
 
